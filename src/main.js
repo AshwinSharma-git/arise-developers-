@@ -45,21 +45,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Smooth Scroll & Link Active State
-  navLinks.forEach(link => {
+  // Smooth Scroll for all anchor links
+  const allAnchorLinks = document.querySelectorAll('a[href^="#"]');
+  allAnchorLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       const targetId = document.querySelector(link.getAttribute('href'));
       if (targetId) {
         e.preventDefault();
         
         // Close mobile menu if open
-        if (mobileMenu.classList.contains('active')) {
+        if (mobileMenu && mobileMenu.classList.contains('active')) {
           burgerBtn.classList.remove('active');
           mobileMenu.classList.remove('active');
           document.body.classList.remove('no-scroll');
         }
 
-        const headerOffset = 80;
+        const headerOffset = 90;
         const elementPosition = targetId.getBoundingClientRect().top;
         const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
