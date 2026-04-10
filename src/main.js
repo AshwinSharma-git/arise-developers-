@@ -187,14 +187,31 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('map-title').textContent = titles[ventureId] || 'Venture Map';
     plotDetails?.classList.remove('active');
     
-    // Inject Mock Plots
+    // Inject Mock Plots (Authentic Layout)
     const grid = document.getElementById('map-grid');
     if (grid) {
       grid.innerHTML = '';
-      for(let i=1; i<=15; i++) {
+      const totalPlots = 12;
+      for(let i=1; i<=totalPlots; i++) {
         const isSold = Math.random() > 0.6;
         const box = document.createElement('div');
         box.className = `plot-box ${isSold ? 'sold' : 'avail'}`;
+        
+        // Add authenticity by creating irregular sizes based on position
+        if (i === 1 || i === 8) {
+          box.style.gridColumn = 'span 2'; // Corner premium plots
+        } else if (i === 4 || i === 11) {
+          box.style.gridColumn = 'span 2';
+        } else {
+          box.style.gridColumn = 'span 1';
+        }
+
+        // Leave an architectural gap for the INTERNAL ROAD (simulated by ::after in CSS)
+        // 4 items on top, then space
+        if (i === 5) {
+          box.style.marginTop = '45px';
+        }
+
         box.setAttribute('data-id', `${ventureId.toUpperCase()}-${String(i).padStart(2,'0')}`);
         box.textContent = String(i).padStart(2,'0');
         grid.appendChild(box);
