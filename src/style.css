@@ -5,45 +5,45 @@
 
 /* ─── CSS Custom Properties ─── */
 :root {
-  /* Brand Colors - Ultra Premium Dark Theme */
-  --color-primary: #181A20;
-  --color-primary-light: #2A2D35;
-  --color-primary-dark: #000000;
-  --color-primary-rgb: 24, 26, 32;
+  /* Brand Colors - Royal Premium Theme */
+  --color-primary: #0F3B36;    /* Deep Royal Emerald */
+  --color-primary-light: #1A544D;
+  --color-primary-dark: #07211E;
+  --color-primary-rgb: 15, 59, 54;
 
-  --color-gold: #D4AF37;       /* Metallic Gold */
-  --color-gold-light: #E8CC75;
-  --color-gold-dark: #AA8B28;
+  --color-gold: #C5A059;       /* Heritage Gold */
+  --color-gold-light: #DEBE7E;
+  --color-gold-dark: #987A40;
 
-  --color-dark: #07080A;
-  --color-dark-soft: #111318;
-  --color-text: #D1D5DB;       /* Soft light gray */
-  --color-text-light: #9CA3AF;
-  --color-text-muted: #6B7280;
+  --color-dark: #1F2933;       /* Slate Dark for headings */
+  --color-dark-soft: #323F4B;
+  --color-text: #475667;       /* Body text */
+  --color-text-light: #7B8794;
+  --color-text-muted: #9AA5B1;
 
-  --color-bg: #0A0B0E;         /* Deep rich black */
-  --color-bg-alt: #101217;     /* Slightly lighter black */
-  --color-bg-card: #181A20;
-  --color-border: #2B303B;
-  --color-border-light: #1F232B;
+  --color-bg: #F9F9F7;         /* Alabaster/Ivory off-white */
+  --color-bg-alt: #F0F0EC;
+  --color-bg-card: #FFFFFF;
+  --color-border: #E4E7EB;
+  --color-border-light: #CBD2D9;
 
   --color-white: #FFFFFF;
   --color-black: #000000;
-  --color-success: #34D399;
+  --color-success: #27AB83;
 
   /* Typography */
   --font-heading: 'Playfair Display', Georgia, 'Times New Roman', serif;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
-  --fs-hero: clamp(3rem, 6.5vw, 6rem);
+  --fs-hero: clamp(3rem, 6.5vw, 5.5rem);
   --fs-h1: clamp(2.2rem, 4.5vw, 4rem);
-  --fs-h2: clamp(1.8rem, 3.5vw, 3rem);
+  --fs-h2: clamp(1.8rem, 3.5vw, 2.8rem);
   --fs-h3: clamp(1.3rem, 2.5vw, 1.7rem);
   --fs-h4: clamp(1.1rem, 1.5vw, 1.3rem);
-  --fs-body: 1rem;
-  --fs-body-lg: 1.125rem;
-  --fs-small: 0.875rem;
-  --fs-xs: 0.75rem;
+  --fs-body: 1.05rem;
+  --fs-body-lg: 1.15rem;
+  --fs-small: 0.9rem;
+  --fs-xs: 0.8rem;
 
   /* Spacing */
   --space-xs: 0.5rem;
@@ -54,10 +54,10 @@
   --space-2xl: 5rem;
   --space-3xl: 8rem;
 
-  --section-padding: clamp(6rem, 12vh, 10rem);
+  --section-padding: clamp(5rem, 10vh, 8rem);
 
   /* Layout */
-  --container-max: 1300px;
+  --container-max: 1240px;
   --container-padding: clamp(1.5rem, 5vw, 3rem);
 
   /* Border Radius */
@@ -67,12 +67,12 @@
   --radius-xl: 24px;
   --radius-full: 999px;
 
-  /* Shadows - Adjusted for Dark Mode */
-  --shadow-sm: 0 2px 8px rgba(0,0,0,0.4);
-  --shadow-md: 0 8px 24px rgba(0,0,0,0.5);
-  --shadow-lg: 0 16px 48px rgba(0,0,0,0.6);
-  --shadow-xl: 0 24px 64px rgba(0,0,0,0.8);
-  --shadow-card-hover: 0 20px 50px rgba(0,0,0,0.7), 0 0 0 1px rgba(212, 175, 55, 0.2);
+  /* Shadows - Premium Soft */
+  --shadow-sm: 0 4px 12px rgba(15, 59, 54, 0.05);
+  --shadow-md: 0 10px 30px rgba(15, 59, 54, 0.08);
+  --shadow-lg: 0 20px 40px rgba(15, 59, 54, 0.12);
+  --shadow-xl: 0 30px 60px rgba(15, 59, 54, 0.15);
+  --shadow-card-hover: 0 24px 48px rgba(15, 59, 54, 0.18), 0 0 0 1px rgba(197, 160, 89, 0.3);
 
   /* Transitions */
   --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -680,8 +680,8 @@ input, select, textarea {
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(10, 11, 14, 0.4) 0%,
-    rgba(10, 11, 14, 0.2) 40%,
+    rgba(15, 59, 54, 0.3) 0%,
+    rgba(15, 59, 54, 0.1) 40%,
     var(--color-bg) 100%
   );
 }
@@ -699,9 +699,9 @@ input, select, textarea {
   position: absolute;
   width: 6px;
   height: 6px;
-  background: var(--color-gold-light);
+  background: var(--color-white);
   border-radius: 50%;
-  box-shadow: 0 0 16px var(--color-gold);
+  box-shadow: 0 0 16px var(--color-white);
   animation: floatUp 15s linear infinite;
   opacity: 0;
 }
@@ -728,44 +728,55 @@ input, select, textarea {
 .hero__glass-box {
   max-width: 900px;
   margin: 6rem auto 4rem;
-  background: rgba(10, 11, 14, 0.55);
+  background: rgba(255, 255, 255, 0.85); /* Solid transparent Royal Ivory */
   @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
-    background: rgba(20, 22, 28, 0.4);
-    -webkit-backdrop-filter: blur(24px);
-    backdrop-filter: blur(24px);
+    background: rgba(255, 255, 255, 0.65);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
   }
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: var(--radius-xl);
   padding: 4rem 3rem;
   text-align: center;
-  box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+  box-shadow: 0 40px 80px rgba(15, 59, 54, 0.15);
   transform: translateY(40px) scale(0.95);
   opacity: 0;
-  filter: blur(10px);
-  animation: boxReveal 1.6s cubic-bezier(0.2, 0.8, 0.2, 1) 0.3s forwards;
+  filter: drop-shadow(0 0 0 transparent);
+  animation: boxReveal 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s forwards;
+  will-change: transform, opacity;
+  pointer-events: auto; /* Ensure events pass to links inside but it doesn't block scroll */
+}
+
+/* This fixes Edge/Chrome hardware acceleration scroll blocking bug over backdrop filters */
+.hero__glass-box::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
 }
 
 @keyframes boxReveal {
-  to { transform: translateY(0) scale(1); opacity: 1; filter: blur(0); }
+  to { transform: translateY(0) scale(1); opacity: 1; filter: drop-shadow(0 0 0 transparent); }
 }
 
 .hero__glass-inner {
-  color: var(--color-white);
+  color: var(--color-dark);
 }
 
 .hero__badge {
   display: inline-block;
   padding: 0.4rem 1.4rem;
-  border: 1px solid rgba(212, 175, 55, 0.4);
+  border: 1px solid rgba(197, 160, 89, 0.5);
   border-radius: var(--radius-full);
   font-size: var(--fs-xs);
   font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   margin-bottom: 2rem;
-  background: rgba(212, 175, 55, 0.05);
-  color: var(--color-gold-light);
+  background: rgba(197, 160, 89, 0.1);
+  color: var(--color-primary);
 }
 
 .hero__title {
@@ -774,7 +785,8 @@ input, select, textarea {
   font-weight: 500;
   line-height: 1.1;
   margin-bottom: 1.8rem;
-  text-shadow: 0 4px 24px rgba(0,0,0,0.8);
+  color: var(--color-primary);
+  text-shadow: none;
   letter-spacing: -0.02em;
 }
 
@@ -790,7 +802,7 @@ input, select, textarea {
   max-width: 600px;
   margin: 0 auto 3rem;
   line-height: 1.8;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .hero__actions {
@@ -798,6 +810,19 @@ input, select, textarea {
   gap: 1.25rem;
   justify-content: center;
   flex-wrap: wrap;
+}
+
+.btn--glass {
+  background: rgba(255,255,255,0.4);
+  color: var(--color-primary);
+  border: 1px solid rgba(15, 59, 54, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.btn--glass:hover {
+  background: rgba(255,255,255,0.9);
+  border-color: rgba(15, 59, 54, 0.4);
+  transform: translateY(-2px);
 }
 
 .btn--glass {
