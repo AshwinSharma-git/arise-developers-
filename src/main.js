@@ -139,14 +139,86 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('.plot-box.selected').forEach(b => b.classList.remove('selected'));
       plotBox.classList.add('selected');
       
-      // Show details panel
+      // Show details panel with dynamic data
       if (plotDetails) {
         plotDetails.classList.add('active');
-        document.getElementById('plot-id').textContent = 'Plot #' + plotBox.getAttribute('data-id');
+        const plotId = plotBox.getAttribute('data-id');
+        const plotSize = plotBox.getAttribute('data-size');
+        const plotFace = plotBox.getAttribute('data-face');
+        const plotPrice = plotBox.getAttribute('data-price');
+        
+        document.getElementById('plot-id').textContent = 'Plot #' + plotId;
+        document.getElementById('plot-size').textContent = plotSize + ' sq.yds';
+        document.getElementById('plot-face').textContent = plotFace;
+        document.getElementById('plot-price').textContent = '₹' + plotPrice;
       }
     }
 
   });
+
+  // ═══════════════════════════════════════════════════════════
+  // 4b. MAP PAN & ZOOM LOGIC
+  // ═══════════════════════════════════════════════════════════
+  const mapContainer = document.getElementById('map-container');
+  const mapZoomLayer = document.getElementById('map-zoom-layer');
+  let scale = 1;
+  let isDragging = false;
+  let startX, startY;
+  let translateX = 0, translateY = 0;
+
+  if (mapContainer && mapZoomLayer) {
+    // Zoom via Mouse Wheel
+    mapContainer.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const zoomSensitivity = 0.05;
+      if (e.deltaY < 0) {
+        scale = Math.min(scale + zoomSensitivity, 3); // Max zoom 3x
+      } else {
+        scale = Math.max(scale - zoomSensitivity, 0.5); // Min zoom 0.5x
+      }
+      updateMapTransform();
+    });
+
+    // Pan via Drag
+    mapContainer.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      startX = e.pageX - translateX;
+      startY = e.pageY - translateY;
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      translateX = e.pageX - startX;
+      translateY = e.pageY - startY;
+      updateMapTransform();
+    });
+
+    window.addEventListener('mouseup', () => { isDragging = false; });
+    mapContainer.addEventListener('mouseleave', () => { isDragging = false; });
+    
+    // Touch support for mobile pan
+    mapContainer.addEventListener('touchstart', (e) => {
+      isDragging = true;
+      startX = e.touches[0].pageX - translateX;
+      startY = e.touches[0].pageY - translateY;
+    }, {passive: false});
+    
+    window.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+      translateX = e.touches[0].pageX - startX;
+      translateY = e.touches[0].pageY - startY;
+      updateMapTransform();
+    }, {passive: false});
+    
+    window.addEventListener('touchend', () => { isDragging = false; });
+  }
+
+  function updateMapTransform() {
+    if (mapZoomLayer) {
+      mapZoomLayer.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+    }
+  }
 
   // ═══════════════════════════════════════════════════════════
   // 5. EXPLORER LOGIC
@@ -156,6 +228,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('no-scroll');
     explorer.setAttribute('aria-hidden', 'false');
     showExplorerView('overview');
+    
+    // Reset Map Viewport
+    scale = 1; translateX = 0; translateY = 0;
+    updateMapTransform();
   }
 
   function closeExplorer() {
@@ -198,13 +274,21 @@ document.addEventListener('DOMContentLoaded', () => {
         box.className = `plot-box ${isSold ? 'sold' : 'avail'}`;
         
         // Add authenticity by creating irregular sizes based on position
+        let sqYds = 200;
+        let facing = 'East';
         if (i === 1 || i === 8) {
           box.style.gridColumn = 'span 2'; // Corner premium plots
+          sqYds = 350; facing = 'North-East';
         } else if (i === 4 || i === 11) {
           box.style.gridColumn = 'span 2';
+          sqYds = 300; facing = 'South';
         } else {
           box.style.gridColumn = 'span 1';
+          sqYds = 200 + (Math.floor(Math.random() * 50));
+          facing = Math.random() > 0.5 ? 'West' : 'North';
         }
+        
+        let price = (sqYds * 14999).toLocaleString('en-IN');
 
         // Leave an architectural gap for the INTERNAL ROAD (simulated by ::after in CSS)
         // 4 items on top, then space
@@ -213,6 +297,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         box.setAttribute('data-id', `${ventureId.toUpperCase()}-${String(i).padStart(2,'0')}`);
+        box.setAttribute('data-size', sqYds);
+        box.setAttribute('data-face', facing);
+        box.setAttribute('data-price', price);
         box.textContent = String(i).padStart(2,'0');
         grid.appendChild(box);
       }
